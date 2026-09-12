@@ -2,8 +2,6 @@
 
 An interactive web-based sorting algorithm visualizer that compiles algorithm execution traces into **standalone animated SVGs** suitable for embedding anywhere.
 
----
-
 ## Features
 
 - **8 Core Sorting Algorithms**:
@@ -30,7 +28,7 @@ An interactive web-based sorting algorithm visualizer that compiles algorithm ex
 
 This is an example of an animated and playable/stoppable merge sort visualization the generator can output:
 
-![merge animated](merge_animated.svg)
+<img src="merge_animated.svg" alt="Merge Sort Animation" />
 
 ## SVG Embedding
 
@@ -40,10 +38,10 @@ For full interactivity (the embedded play/pause toggle), embed via `<object>` or
 
 ```html
 <!-- Interactive (play/pause toggle works) -->
-<object type="image/svg+xml" data="quick_sort_animated.svg"></object>
+<object type="image/svg+xml" data="merge_animated.svg"></object>
 
 <!-- Static looped graphic (Markdown / standard img) -->
-<img src="quick_sort_animated.svg" alt="Quick Sort Animation" />
+<img src="merge_animated.svg" alt="Merge Sort Animation" />
 ```
 
 ## Further developments
