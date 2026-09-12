@@ -1,33 +1,19 @@
-# Sorting Algorithm Visualizer & Compact Animated SVG Exporter
+# Sorting Algorithm Visualizer to Animated SVG
 
-An interactive web-based sorting algorithm visualizer that compiles algorithm execution traces into **standalone animated SVGs** suitable for embedding anywhere.
+Link: <https://sammed05.github.io/sorting_to_animated_svg/>
+
+An interactive web-based sorting algorithm visualizer that compiles algorithm execution traces into **standalone animated SVGs** suitable for embedding anywhere. You can also export to GIF if necessary.
 
 * 8 core sorting algorithms, including Quick, Merge, Heap, Radix, and standard comparison sorts
 * Dynamic visuals featuring recursion range highlighting, swap/scan markers, and adaptive theme support using `currentColor` and `prefers-color-scheme`
 * Interactive play/pause toggle embedded directly into the generated SVG
 * Zero external dependencies (built with pure HTML5, vanilla JS, CSS, and native SVG SMIL)
 
-### Demo/Example
-
-This is an example of an animated and playable/stoppable merge sort visualization the generator can output:
+This is an example of playable/stoppable **merge sort** animated visualization that the generator can output:
 
 ![Merge Sort Animation](merge_animated.svg)
 
 > Note: GitHub does not support embedding raw, inline SVG XML code directly inside a markdown file for security and cross-site scripting (XSS) prevention. If you are unable to play/pause the animation with the button, download the SVG to try it!
-
-### SVG Embedding
-
-The exported SVGs are fully self-contained vector files.
-
-For full interactivity (the embedded play/pause toggle), embed via `<object>` or inline:
-
-```html
-<!-- Interactive (play/pause toggle works) -->
-<object type="image/svg+xml" data="merge_animated.svg"></object>
-
-<!-- Static looped graphic (Markdown / standard img) -->
-<img src="merge_animated.svg" alt="Merge Sort Animation" />
-```
 
 ### Further developments
 
