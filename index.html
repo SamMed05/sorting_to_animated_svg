@@ -601,8 +601,8 @@
       const n = array.length;
       const totalSteps = frames.length;
 
-      // Downsample frames if step count is very high to keep SVG compact (<45KB)
-      const maxFrames = 80;
+      // 1. Sample down to a maximum of 70 steps
+      const maxFrames = 70;
       const stepInterval = Math.max(1, Math.floor(totalSteps / maxFrames));
       const sampled = [];
       for (let i = 0; i < totalSteps; i += stepInterval) {
@@ -612,18 +612,46 @@
         sampled.push(frames[totalSteps - 1]);
       }
 
-      // Hold the final sorted frame for ~1.5 seconds:
+      // 2. Add an end-of-loop pause (in seconds, without inflating frame arrays)
       const msPerStep = parseInt(stepDuration.value, 10);
-      const pauseFramesCount = Math.max(4, Math.round(1500 / msPerStep)); 
-      const finalFrame = sampled[sampled.length - 1];
-      for (let p = 0; p < pauseFramesCount; p++) {
-        sampled.push(finalFrame);
-      }
+      const activeDuration = (sampled.length * msPerStep) / 1000;
+      const pauseDuration = 1.4; // 1.4 second pause at end
+      const totalDuration = +(activeDuration + pauseDuration).toFixed(2);
+      const activeRatio = activeDuration / totalDuration; // keyTimes scale
 
-      const sampleCount = sampled.length;
-      
-      // Auto-normalized duration based on step count: perceived speed stays consistent
-      const durationSec = +((sampleCount * msPerStep) / 1000).toFixed(2);
+      // Base timestamps: active sorting finishes at activeRatio, then holds until 1.0
+      const totalCount = sampled.length;
+      const rawTimes = sampled.map((_, i) => (i / (totalCount - 1)) * activeRatio);
+      // Append the hold endpoint
+      rawTimes.push(1.0);
+
+      // 3. KEYFRAME COMPACTOR: Drops all redundant repeating keyframes per attribute
+      function makeCompactAnim(attr, rawVals) {
+        // Append final hold value for the pause
+        const vals = [...rawVals, rawVals[rawVals.length - 1]];
+        const first = vals[0];
+
+        // If it never changes across the whole animation, omit completely!
+        if (vals.every(v => v === first)) return "";
+
+        const cTimes = [];
+        const cVals = [];
+
+        for (let i = 0; i < vals.length; i++) {
+          const isFirst = (i === 0);
+          const isLast = (i === vals.length - 1);
+          const valChanged = !isFirst && vals[i] !== vals[i - 1];
+          const willChange = !isLast && vals[i] !== vals[i + 1];
+
+          // Keep keyframe only when transitioning or holding state boundary
+          if (isFirst || isLast || valChanged || willChange) {
+            cTimes.push(rawTimes[i].toFixed(3));
+            cVals.push(vals[i]);
+          }
+        }
+
+        return `\n        <animate attributeName="${attr}" values="${cVals.join(";")}" keyTimes="${cTimes.join(";")}" dur="${totalDuration}s" repeatCount="indefinite" calcMode="discrete"/>`;
+      }
 
       const W = 600;
       const H = 300;
@@ -635,23 +663,15 @@
       const barW = +(((W - padX * 2 - totalGaps) / n).toFixed(2));
       const gap = 3;
 
-      const keyTimes = sampled.map((_, i) => (i / (sampleCount - 1)).toFixed(3)).join(";");
+      // Range & Pivot Keyframe Arrays
+      const rangeX = [], rangeW = [], rangeOp = [], pivotY = [], pivotOp = [];
 
-      // Generate Range Box & Pivot Guideline Keyframes
-      const rangeX = [];
-      const rangeW = [];
-      const rangeOp = [];
-      const pivotY = [];
-      const pivotOp = [];
-
-      for (let f = 0; f < sampleCount; f++) {
+      for (let f = 0; f < totalCount; f++) {
         const frame = sampled[f];
         if (frame.range) {
           const [r0, r1] = frame.range;
-          const rx = padX + r0 * (barW + gap);
-          const rw = (r1 - r0 + 1) * barW + (r1 - r0) * gap;
-          rangeX.push(+rx.toFixed(1));
-          rangeW.push(+rw.toFixed(1));
+          rangeX.push(+(padX + r0 * (barW + gap)).toFixed(1));
+          rangeW.push(+((r1 - r0 + 1) * barW + (r1 - r0) * gap).toFixed(1));
           rangeOp.push("0.12");
         } else {
           rangeX.push(0);
@@ -660,8 +680,7 @@
         }
 
         if (frame.pivotVal !== null) {
-          const py = +(padTop + innerH - (frame.pivotVal / 100) * innerH).toFixed(1);
-          pivotY.push(py);
+          pivotY.push(+(padTop + innerH - (frame.pivotVal / 100) * innerH).toFixed(1));
           pivotOp.push("0.85");
         } else {
           pivotY.push(0);
@@ -678,7 +697,7 @@
         const fills = [];
         const opacities = [];
 
-        for (let f = 0; f < sampleCount; f++) {
+        for (let f = 0; f < totalCount; f++) {
           const frame = sampled[f];
           const val = frame.array[i];
           const hVal = +((val / 100) * innerH).toFixed(1);
@@ -692,7 +711,7 @@
 
           if (type === 'pivot') {
             fills.push(C_PIVOT);
-            opacities.push(isDimmed ? "0.3" : "1.0");
+            opacities.push(isDimmed ? "0.3" : "1");
           } else if (type === 'comp') {
             fills.push(C_COMP);
             opacities.push(isDimmed ? "0.3" : "0.9");
@@ -708,18 +727,17 @@
           }
         }
 
+        const animH = makeCompactAnim("height", heights);
+        const animY = makeCompactAnim("y", ys);
+        const animFill = makeCompactAnim("fill", fills);
+        const animOp = makeCompactAnim("opacity", opacities);
+
         barsMarkup += `
     <g>
-      <rect x="${x}" y="${ys[0]}" width="${barW}" height="${heights[0]}" rx="1" fill="${fills[0]}" opacity="${opacities[0]}">
-        <animate attributeName="height" values="${heights.join(";")}" keyTimes="${keyTimes}" dur="${durationSec}s" repeatCount="indefinite" calcMode="discrete"/>
-        <animate attributeName="y" values="${ys.join(";")}" keyTimes="${keyTimes}" dur="${durationSec}s" repeatCount="indefinite" calcMode="discrete"/>
-        <animate attributeName="fill" values="${fills.join(";")}" keyTimes="${keyTimes}" dur="${durationSec}s" repeatCount="indefinite" calcMode="discrete"/>
-        <animate attributeName="opacity" values="${opacities.join(";")}" keyTimes="${keyTimes}" dur="${durationSec}s" repeatCount="indefinite" calcMode="discrete"/>
+      <rect x="${x}" y="${ys[0]}" width="${barW}" height="${heights[0]}" rx="1" fill="${fills[0]}" opacity="${opacities[0]}">${animH}${animY}${animFill}${animOp}
       </rect>
-      <!-- Cap -->
-      <rect x="${x}" y="${ys[0]}" width="${barW}" height="3" rx="0.5" fill="${fills[0]}">
-        <animate attributeName="y" values="${ys.join(";")}" keyTimes="${keyTimes}" dur="${durationSec}s" repeatCount="indefinite" calcMode="discrete"/>
-        <animate attributeName="fill" values="${fills.join(";")}" keyTimes="${keyTimes}" dur="${durationSec}s" repeatCount="indefinite" calcMode="discrete"/>
+      <!-- Cap only animates if Y or Fill change -->
+      <rect x="${x}" y="${ys[0]}" width="${barW}" height="3" rx="0.5" fill="${fills[0]}">${animY}${animFill}
       </rect>
     </g>`;
       }
@@ -727,47 +745,36 @@
       return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="100%" height="100%">
   <!-- Embedded script and styling for the pause/play button -->
   <style>
-    .svg-btn { cursor: pointer; opacity: 0.45; transition: opacity 0.15s; }
-    .svg-btn:hover { opacity: 0.9; }
+    .svg-btn { cursor: pointer; opacity: 0.55; transition: opacity 0.15s; }
+    .svg-btn:hover { opacity: 1; }
     .svg-btn rect { fill: currentColor; }
-    .icon-bar { fill: currentColor; }
-    .icon-play { fill: currentColor; display: none; }
+    .icon-bar, .icon-play { fill: currentColor; }
+    .icon-play { display: none; }
     .paused .icon-play { display: block; }
     .paused .icon-pause { display: none; }
   </style>
 
-  <!-- Semi-transparent border, no background -->
+  <!-- Border -->
   <rect x="0.5" y="0.5" width="${W - 1}" height="${H - 1}" rx="3" fill="none" stroke="rgba(128,128,128,0.35)" stroke-width="1"/>
 
   <!-- Active Range Shading -->
-  <rect y="${padTop}" height="${innerH}" fill="currentColor" opacity="0" pointer-events="none">
-    <animate attributeName="x" values="${rangeX.join(";")}" keyTimes="${keyTimes}" dur="${durationSec}s" repeatCount="indefinite" calcMode="discrete"/>
-    <animate attributeName="width" values="${rangeW.join(";")}" keyTimes="${keyTimes}" dur="${durationSec}s" repeatCount="indefinite" calcMode="discrete"/>
-    <animate attributeName="opacity" values="${rangeOp.join(";")}" keyTimes="${keyTimes}" dur="${durationSec}s" repeatCount="indefinite" calcMode="discrete"/>
+  <rect y="${padTop}" height="${innerH}" fill="currentColor" opacity="0" pointer-events="none">${makeCompactAnim("x", rangeX)}${makeCompactAnim("width", rangeW)}${makeCompactAnim("opacity", rangeOp)}
   </rect>
 
   <!-- Horizontal Pivot Guideline -->
-  <line x1="${padX}" x2="${W - padX}" stroke="${C_PIVOT}" stroke-width="1.2" stroke-dasharray="3,3" opacity="0">
-    <animate attributeName="y1" values="${pivotY.join(";")}" keyTimes="${keyTimes}" dur="${durationSec}s" repeatCount="indefinite" calcMode="discrete"/>
-    <animate attributeName="y2" values="${pivotY.join(";")}" keyTimes="${keyTimes}" dur="${durationSec}s" repeatCount="indefinite" calcMode="discrete"/>
-    <animate attributeName="opacity" values="${pivotOp.join(";")}" keyTimes="${keyTimes}" dur="${durationSec}s" repeatCount="indefinite" calcMode="discrete"/>
+  <line x1="${padX}" x2="${W - padX}" stroke="${C_PIVOT}" stroke-width="1.2" stroke-dasharray="3,3" opacity="0" pointer-events="none">${makeCompactAnim("y1", pivotY)}${makeCompactAnim("y2", pivotY)}${makeCompactAnim("opacity", pivotOp)}
   </line>
 
-  <!-- Animated Bars -->
+  <!-- Bars -->
   ${barsMarkup}
 
-  <!-- Interactive Pause / Play Button (Top-Left Corner) -->
+  <!-- Interactive Pause / Play Button -->
   <g class="svg-btn" onclick="var s=this.ownerSVGElement||this;if(s.animationsPaused()){s.unpauseAnimations();this.classList.remove('paused');}else{s.pauseAnimations();this.classList.add('paused');}" transform="translate(6, 6)">
-    <!-- Clickable hit area -->
-    <rect width="20" height="20" rx="3" fill-opacity="0.08" />
-    
-    <!-- Pause icon (2 vertical bars) -->
+    <rect width="20" height="20" rx="3" fill-opacity="0.12" />
     <g class="icon-pause">
       <rect x="6" y="5" width="2.5" height="10" rx="0.5" class="icon-bar"/>
       <rect x="11.5" y="5" width="2.5" height="10" rx="0.5" class="icon-bar"/>
     </g>
-
-    <!-- Play icon (triangle) -->
     <polygon points="7,5 15,10 7,15" class="icon-play"/>
   </g>
 </svg>`;
