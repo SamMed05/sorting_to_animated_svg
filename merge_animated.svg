@@ -1,0 +1,351 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300" width="100%" height="100%">
+  <!-- Embedded script and styling for the pause/play button -->
+  <style>
+    .svg-btn { cursor: pointer; opacity: 0.55; transition: opacity 0.15s; }
+    .svg-btn:hover { opacity: 1; }
+    .svg-btn rect { fill: currentColor; }
+    .icon-bar, .icon-play { fill: currentColor; }
+    .icon-play { display: none; }
+    .paused .icon-play { display: block; }
+    .paused .icon-pause { display: none; }
+  </style>
+
+  <!-- Border -->
+  <rect x="0.5" y="0.5" width="599" height="299" rx="3" fill="none" stroke="rgba(128,128,128,0.35)" stroke-width="1"/>
+
+  <!-- Active Range Shading -->
+  <rect y="16" height="268" fill="currentColor" opacity="0" pointer-events="none">
+        <animate attributeName="x" values="0;14;14;85.9;85.9;14;14;157.8;157.8;229.6;229.6;157.8;157.8;14;14;301.5;301.5;373.4;373.4;301.5;301.5;445.3;445.3;517.2;517.2;445.3;445.3;301.5;301.5;14;14;0;0" keyTimes="0.000;0.009;0.035;0.044;0.071;0.079;0.115;0.124;0.150;0.159;0.185;0.194;0.229;0.238;0.327;0.335;0.362;0.371;0.397;0.406;0.441;0.450;0.477;0.485;0.512;0.521;0.556;0.565;0.653;0.662;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="width" values="0;44.9;68.9;68.9;44.9;68.9;68.9;140.8;140.8;44.9;44.9;68.9;68.9;44.9;44.9;68.9;68.9;140.8;140.8;284.5;284.5;44.9;44.9;68.9;68.9;44.9;44.9;68.9;68.9;140.8;140.8;44.9;44.9;68.9;68.9;44.9;44.9;68.9;68.9;140.8;140.8;284.5;284.5;572;572;0;0" keyTimes="0.000;0.009;0.018;0.035;0.044;0.053;0.071;0.079;0.115;0.124;0.132;0.141;0.150;0.159;0.168;0.176;0.185;0.194;0.229;0.238;0.327;0.335;0.344;0.353;0.362;0.371;0.379;0.388;0.397;0.406;0.441;0.450;0.459;0.468;0.477;0.485;0.494;0.503;0.512;0.521;0.556;0.565;0.653;0.662;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="opacity" values="0;0.12;0.12;0;0" keyTimes="0.000;0.009;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+  </rect>
+
+  <!-- Horizontal Pivot Guideline -->
+  <line x1="14" x2="586" stroke="#d62728" stroke-width="1.2" stroke-dasharray="3,3" opacity="0" pointer-events="none">
+  </line>
+
+  <!-- Bars -->
+  
+    <g>
+      <rect x="14" y="115.2" width="20.96" height="168.8" rx="1" fill="currentColor" opacity="0.35">
+        <animate attributeName="height" values="168.8;45.6;45.6;37.5;37.5" keyTimes="0.000;0.009;0.653;0.662;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="y" values="115.2;238.4;238.4;246.5;246.5" keyTimes="0.000;0.009;0.653;0.662;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;#ea580c;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.009;0.018;0.026;0.071;0.079;0.088;0.229;0.238;0.247;0.653;0.662;0.671;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="opacity" values="0.35;0.9;0.9;0.35;0.35;0.15;0.15;0.9;0.35;0.35;0.15;0.15;0.9;0.35;0.35;0.15;0.15;0.9;0.35;0.35;0.85;0.85" keyTimes="0.000;0.009;0.018;0.026;0.035;0.044;0.071;0.079;0.088;0.115;0.124;0.229;0.238;0.247;0.327;0.335;0.653;0.662;0.671;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+      <!-- Cap only animates if Y or Fill change -->
+      <rect x="14" y="115.2" width="20.96" height="3" rx="0.5" fill="currentColor">
+        <animate attributeName="y" values="115.2;238.4;238.4;246.5;246.5" keyTimes="0.000;0.009;0.653;0.662;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;#ea580c;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.009;0.018;0.026;0.071;0.079;0.088;0.229;0.238;0.247;0.653;0.662;0.671;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+    </g>
+    <g>
+      <rect x="37.96" y="238.4" width="20.96" height="45.6" rx="1" fill="currentColor" opacity="0.35">
+        <animate attributeName="height" values="45.6;45.6;168.8;168.8;101.8;101.8;56.3;56.3;45.6;45.6" keyTimes="0.000;0.009;0.018;0.026;0.035;0.247;0.256;0.662;0.671;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="y" values="238.4;238.4;115.2;115.2;182.2;182.2;227.7;227.7;238.4;238.4" keyTimes="0.000;0.009;0.018;0.026;0.035;0.247;0.256;0.662;0.671;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.018;0.026;0.035;0.079;0.088;0.097;0.238;0.247;0.256;0.662;0.671;0.679;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="opacity" values="0.35;0.35;0.9;0.35;0.15;0.15;0.35;0.9;0.35;0.35;0.15;0.15;0.35;0.9;0.35;0.35;0.15;0.15;0.35;0.9;0.35;0.35;0.85;0.85" keyTimes="0.000;0.018;0.026;0.035;0.044;0.071;0.079;0.088;0.097;0.115;0.124;0.229;0.238;0.247;0.256;0.327;0.335;0.653;0.662;0.671;0.679;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+      <!-- Cap only animates if Y or Fill change -->
+      <rect x="37.96" y="238.4" width="20.96" height="3" rx="0.5" fill="currentColor">
+        <animate attributeName="y" values="238.4;238.4;115.2;115.2;182.2;182.2;227.7;227.7;238.4;238.4" keyTimes="0.000;0.009;0.018;0.026;0.035;0.247;0.256;0.662;0.671;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.018;0.026;0.035;0.079;0.088;0.097;0.238;0.247;0.256;0.662;0.671;0.679;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+    </g>
+    <g>
+      <rect x="61.92" y="182.2" width="20.96" height="101.8" rx="1" fill="currentColor" opacity="0.35">
+        <animate attributeName="height" values="101.8;101.8;168.8;168.8;120.6;120.6;75;75;56.3;56.3" keyTimes="0.000;0.026;0.035;0.088;0.097;0.256;0.265;0.671;0.679;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="y" values="182.2;182.2;115.2;115.2;163.4;163.4;209;209;227.7;227.7" keyTimes="0.000;0.026;0.035;0.088;0.097;0.256;0.265;0.671;0.679;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#ea580c;currentColor;currentColor;#ea580c;currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.026;0.035;0.044;0.088;0.097;0.106;0.247;0.256;0.265;0.671;0.679;0.688;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="opacity" values="0.35;0.15;0.35;0.35;0.9;0.15;0.15;0.35;0.35;0.9;0.35;0.35;0.15;0.15;0.35;0.35;0.9;0.35;0.35;0.15;0.15;0.35;0.35;0.9;0.35;0.35;0.85;0.85" keyTimes="0.000;0.009;0.018;0.026;0.035;0.044;0.071;0.079;0.088;0.097;0.106;0.115;0.124;0.229;0.238;0.247;0.256;0.265;0.327;0.335;0.653;0.662;0.671;0.679;0.688;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+      <!-- Cap only animates if Y or Fill change -->
+      <rect x="61.92" y="182.2" width="20.96" height="3" rx="0.5" fill="currentColor">
+        <animate attributeName="y" values="182.2;182.2;115.2;115.2;163.4;163.4;209;209;227.7;227.7" keyTimes="0.000;0.026;0.035;0.088;0.097;0.256;0.265;0.671;0.679;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#ea580c;currentColor;currentColor;#ea580c;currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.026;0.035;0.044;0.088;0.097;0.106;0.247;0.256;0.265;0.671;0.679;0.688;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+    </g>
+    <g>
+      <rect x="85.88" y="163.4" width="20.96" height="120.6" rx="1" fill="currentColor" opacity="0.35">
+        <animate attributeName="height" values="120.6;120.6;150.1;150.1;83.1;83.1;64.3;64.3" keyTimes="0.000;0.097;0.106;0.265;0.274;0.679;0.688;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="y" values="163.4;163.4;133.9;133.9;200.9;200.9;219.7;219.7" keyTimes="0.000;0.097;0.106;0.265;0.274;0.679;0.688;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#ea580c;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.035;0.044;0.053;0.062;0.097;0.106;0.115;0.256;0.265;0.274;0.679;0.688;0.697;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="opacity" values="0.35;0.15;0.15;0.9;0.9;0.35;0.35;0.9;0.35;0.15;0.15;0.35;0.35;0.9;0.35;0.35;0.15;0.15;0.35;0.35;0.9;0.35;0.35;0.85;0.85" keyTimes="0.000;0.009;0.035;0.044;0.053;0.062;0.097;0.106;0.115;0.124;0.229;0.238;0.256;0.265;0.274;0.327;0.335;0.653;0.662;0.679;0.688;0.697;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+      <!-- Cap only animates if Y or Fill change -->
+      <rect x="85.88" y="163.4" width="20.96" height="3" rx="0.5" fill="currentColor">
+        <animate attributeName="y" values="163.4;163.4;133.9;133.9;200.9;200.9;219.7;219.7" keyTimes="0.000;0.097;0.106;0.265;0.274;0.679;0.688;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#ea580c;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.035;0.044;0.053;0.062;0.097;0.106;0.115;0.256;0.265;0.274;0.679;0.688;0.697;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+    </g>
+    <g>
+      <rect x="109.84" y="123.2" width="20.96" height="160.8" rx="1" fill="currentColor" opacity="0.35">
+        <animate attributeName="height" values="160.8;160.8;150.1;150.1;160.8;160.8;101.8;101.8;75;75" keyTimes="0.000;0.062;0.071;0.106;0.115;0.274;0.282;0.688;0.697;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="y" values="123.2;123.2;133.9;133.9;123.2;123.2;182.2;182.2;209;209" keyTimes="0.000;0.062;0.071;0.106;0.115;0.274;0.282;0.688;0.697;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.053;0.062;0.071;0.106;0.115;0.124;0.265;0.274;0.282;0.688;0.697;0.706;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="opacity" values="0.35;0.15;0.15;0.35;0.35;0.9;0.35;0.35;0.9;0.15;0.15;0.35;0.35;0.9;0.35;0.35;0.15;0.15;0.35;0.35;0.9;0.35;0.35;0.85;0.85" keyTimes="0.000;0.009;0.035;0.044;0.053;0.062;0.071;0.106;0.115;0.124;0.229;0.238;0.265;0.274;0.282;0.327;0.335;0.653;0.662;0.688;0.697;0.706;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+      <!-- Cap only animates if Y or Fill change -->
+      <rect x="109.84" y="123.2" width="20.96" height="3" rx="0.5" fill="currentColor">
+        <animate attributeName="y" values="123.2;123.2;133.9;133.9;123.2;123.2;182.2;182.2;209;209" keyTimes="0.000;0.062;0.071;0.106;0.115;0.274;0.282;0.688;0.697;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.053;0.062;0.071;0.106;0.115;0.124;0.265;0.274;0.282;0.688;0.697;0.706;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+    </g>
+    <g>
+      <rect x="133.8" y="133.9" width="20.96" height="150.1" rx="1" fill="currentColor" opacity="0.35">
+        <animate attributeName="height" values="150.1;150.1;160.8;160.8;168.8;168.8;120.6;120.6;83.1;83.1" keyTimes="0.000;0.062;0.071;0.115;0.124;0.282;0.291;0.697;0.706;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="y" values="133.9;133.9;123.2;123.2;115.2;115.2;163.4;163.4;200.9;200.9" keyTimes="0.000;0.062;0.071;0.115;0.124;0.282;0.291;0.697;0.706;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#ea580c;currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.062;0.071;0.079;0.274;0.282;0.291;0.697;0.706;0.715;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="opacity" values="0.35;0.15;0.15;0.35;0.35;0.9;0.35;0.35;0.15;0.15;0.35;0.35;0.9;0.35;0.35;0.15;0.15;0.35;0.35;0.9;0.35;0.35;0.85;0.85" keyTimes="0.000;0.009;0.044;0.053;0.062;0.071;0.079;0.115;0.124;0.229;0.238;0.274;0.282;0.291;0.327;0.335;0.653;0.662;0.697;0.706;0.715;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+      <!-- Cap only animates if Y or Fill change -->
+      <rect x="133.8" y="133.9" width="20.96" height="3" rx="0.5" fill="currentColor">
+        <animate attributeName="y" values="133.9;133.9;123.2;123.2;115.2;115.2;163.4;163.4;200.9;200.9" keyTimes="0.000;0.062;0.071;0.115;0.124;0.282;0.291;0.697;0.706;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#ea580c;currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.062;0.071;0.079;0.274;0.282;0.291;0.697;0.706;0.715;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+    </g>
+    <g>
+      <rect x="157.76" y="200.9" width="20.96" height="83.1" rx="1" fill="currentColor" opacity="0.35">
+        <animate attributeName="height" values="83.1;83.1;56.3;56.3;142;142;93.8;93.8" keyTimes="0.000;0.124;0.132;0.291;0.300;0.706;0.715;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="y" values="200.9;200.9;227.7;227.7;142;142;190.2;190.2" keyTimes="0.000;0.124;0.132;0.291;0.300;0.706;0.715;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#2563eb;currentColor;#ea580c;currentColor;currentColor;#2563eb;currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.115;0.124;0.132;0.141;0.150;0.185;0.194;0.203;0.282;0.291;0.300;0.706;0.715;0.724;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="opacity" values="0.35;0.15;0.15;0.9;0.35;0.9;0.35;0.15;0.15;0.9;0.35;0.35;0.9;0.35;0.35;0.15;0.15;0.35;0.35;0.9;0.35;0.35;0.85;0.85" keyTimes="0.000;0.009;0.115;0.124;0.132;0.141;0.150;0.159;0.185;0.194;0.203;0.282;0.291;0.300;0.327;0.335;0.653;0.662;0.706;0.715;0.724;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+      <!-- Cap only animates if Y or Fill change -->
+      <rect x="157.76" y="200.9" width="20.96" height="3" rx="0.5" fill="currentColor">
+        <animate attributeName="y" values="200.9;200.9;227.7;227.7;142;142;190.2;190.2" keyTimes="0.000;0.124;0.132;0.291;0.300;0.706;0.715;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#2563eb;currentColor;#ea580c;currentColor;currentColor;#2563eb;currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.115;0.124;0.132;0.141;0.150;0.185;0.194;0.203;0.282;0.291;0.300;0.706;0.715;0.724;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+    </g>
+    <g>
+      <rect x="181.72" y="227.7" width="20.96" height="56.3" rx="1" fill="currentColor" opacity="0.35">
+        <animate attributeName="height" values="56.3;56.3;83.1;83.1;75;75;150.1;150.1;101.8;101.8" keyTimes="0.000;0.124;0.132;0.203;0.212;0.300;0.309;0.715;0.724;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="y" values="227.7;227.7;200.9;200.9;209;209;133.9;133.9;182.2;182.2" keyTimes="0.000;0.124;0.132;0.203;0.212;0.300;0.309;0.715;0.724;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#ea580c;currentColor;#ea580c;currentColor;currentColor;#2563eb;currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.124;0.132;0.141;0.150;0.159;0.194;0.203;0.212;0.291;0.300;0.309;0.715;0.724;0.732;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="opacity" values="0.35;0.15;0.15;0.35;0.9;0.35;0.9;0.15;0.15;0.35;0.9;0.35;0.35;0.9;0.35;0.35;0.15;0.15;0.35;0.35;0.9;0.35;0.35;0.85;0.85" keyTimes="0.000;0.009;0.115;0.124;0.132;0.141;0.150;0.159;0.185;0.194;0.203;0.212;0.291;0.300;0.309;0.327;0.335;0.653;0.662;0.715;0.724;0.732;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+      <!-- Cap only animates if Y or Fill change -->
+      <rect x="181.72" y="227.7" width="20.96" height="3" rx="0.5" fill="currentColor">
+        <animate attributeName="y" values="227.7;227.7;200.9;200.9;209;209;133.9;133.9;182.2;182.2" keyTimes="0.000;0.124;0.132;0.203;0.212;0.300;0.309;0.715;0.724;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#ea580c;currentColor;#ea580c;currentColor;currentColor;#2563eb;currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.124;0.132;0.141;0.150;0.159;0.194;0.203;0.212;0.291;0.300;0.309;0.715;0.724;0.732;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+    </g>
+    <g>
+      <rect x="205.68" y="142" width="20.96" height="142" rx="1" fill="currentColor" opacity="0.35">
+        <animate attributeName="height" values="142;142;83.1;83.1;160.8;160.8;112.6;112.6" keyTimes="0.000;0.212;0.221;0.309;0.318;0.724;0.732;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="y" values="142;142;200.9;200.9;123.2;123.2;171.4;171.4" keyTimes="0.000;0.212;0.221;0.309;0.318;0.724;0.732;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#2563eb;currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.203;0.212;0.221;0.300;0.309;0.318;0.724;0.732;0.741;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="opacity" values="0.35;0.15;0.15;0.35;0.35;0.15;0.15;0.35;0.35;0.9;0.35;0.35;0.9;0.35;0.35;0.15;0.15;0.35;0.35;0.9;0.35;0.35;0.85;0.85" keyTimes="0.000;0.009;0.132;0.141;0.150;0.159;0.185;0.194;0.203;0.212;0.221;0.300;0.309;0.318;0.327;0.335;0.653;0.662;0.724;0.732;0.741;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+      <!-- Cap only animates if Y or Fill change -->
+      <rect x="205.68" y="142" width="20.96" height="3" rx="0.5" fill="currentColor">
+        <animate attributeName="y" values="142;142;200.9;200.9;123.2;123.2;171.4;171.4" keyTimes="0.000;0.212;0.221;0.309;0.318;0.724;0.732;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#2563eb;currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.203;0.212;0.221;0.300;0.309;0.318;0.724;0.732;0.741;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+    </g>
+    <g>
+      <rect x="229.64" y="77.6" width="20.96" height="206.4" rx="1" fill="currentColor" opacity="0.35">
+        <animate attributeName="height" values="206.4;206.4;75;75;142;142;168.8;168.8;120.6;120.6" keyTimes="0.000;0.159;0.168;0.221;0.229;0.318;0.327;0.732;0.741;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="y" values="77.6;77.6;209;209;142;142;115.2;115.2;163.4;163.4" keyTimes="0.000;0.159;0.168;0.221;0.229;0.318;0.327;0.732;0.741;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#2563eb;currentColor;#ea580c;currentColor;currentColor;#2563eb;currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.150;0.159;0.168;0.176;0.185;0.212;0.221;0.229;0.309;0.318;0.327;0.732;0.741;0.750;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="opacity" values="0.35;0.15;0.15;0.9;0.35;0.9;0.35;0.35;0.9;0.35;0.35;0.9;0.35;0.15;0.15;0.35;0.35;0.9;0.35;0.35;0.85;0.85" keyTimes="0.000;0.009;0.150;0.159;0.168;0.176;0.185;0.212;0.221;0.229;0.309;0.318;0.327;0.335;0.653;0.662;0.732;0.741;0.750;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+      <!-- Cap only animates if Y or Fill change -->
+      <rect x="229.64" y="77.6" width="20.96" height="3" rx="0.5" fill="currentColor">
+        <animate attributeName="y" values="77.6;77.6;209;209;142;142;115.2;115.2;163.4;163.4" keyTimes="0.000;0.159;0.168;0.221;0.229;0.318;0.327;0.732;0.741;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#2563eb;currentColor;#ea580c;currentColor;currentColor;#2563eb;currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.150;0.159;0.168;0.176;0.185;0.212;0.221;0.229;0.309;0.318;0.327;0.732;0.741;0.750;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+    </g>
+    <g>
+      <rect x="253.6" y="209" width="20.96" height="75" rx="1" fill="currentColor" opacity="0.35">
+        <animate attributeName="height" values="75;75;206.4;206.4;187.6;187.6;131.3;131.3" keyTimes="0.000;0.159;0.168;0.176;0.185;0.741;0.750;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="y" values="209;209;77.6;77.6;96.4;96.4;152.7;152.7" keyTimes="0.000;0.159;0.168;0.176;0.185;0.741;0.750;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#ea580c;currentColor;#ea580c;currentColor;currentColor;#ea580c;currentColor;currentColor;#ea580c;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.159;0.168;0.176;0.185;0.194;0.221;0.229;0.238;0.318;0.327;0.335;0.741;0.750;0.759;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="opacity" values="0.35;0.15;0.15;0.35;0.9;0.35;0.9;0.35;0.35;0.9;0.35;0.35;0.9;0.15;0.15;0.35;0.35;0.9;0.35;0.35;0.85;0.85" keyTimes="0.000;0.009;0.150;0.159;0.168;0.176;0.185;0.194;0.221;0.229;0.238;0.318;0.327;0.335;0.653;0.662;0.741;0.750;0.759;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+      <!-- Cap only animates if Y or Fill change -->
+      <rect x="253.6" y="209" width="20.96" height="3" rx="0.5" fill="currentColor">
+        <animate attributeName="y" values="209;209;77.6;77.6;96.4;96.4;152.7;152.7" keyTimes="0.000;0.159;0.168;0.176;0.185;0.741;0.750;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#ea580c;currentColor;#ea580c;currentColor;currentColor;#ea580c;currentColor;currentColor;#ea580c;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.159;0.168;0.176;0.185;0.194;0.221;0.229;0.238;0.318;0.327;0.335;0.741;0.750;0.759;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+    </g>
+    <g>
+      <rect x="277.56" y="96.4" width="20.96" height="187.6" rx="1" fill="currentColor" opacity="0.35">
+        <animate attributeName="height" values="187.6;187.6;206.4;206.4;142;142" keyTimes="0.000;0.185;0.194;0.750;0.759;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="y" values="96.4;96.4;77.6;77.6;142;142" keyTimes="0.000;0.185;0.194;0.750;0.759;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.750;0.759;0.768;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="opacity" values="0.35;0.15;0.15;0.35;0.35;0.15;0.15;0.35;0.35;0.9;0.35;0.35;0.85;0.85" keyTimes="0.000;0.009;0.168;0.176;0.327;0.335;0.653;0.662;0.750;0.759;0.768;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+      <!-- Cap only animates if Y or Fill change -->
+      <rect x="277.56" y="96.4" width="20.96" height="3" rx="0.5" fill="currentColor">
+        <animate attributeName="y" values="96.4;96.4;77.6;77.6;142;142" keyTimes="0.000;0.185;0.194;0.750;0.759;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.750;0.759;0.768;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+    </g>
+    <g>
+      <rect x="301.52" y="190.2" width="20.96" height="93.8" rx="1" fill="currentColor" opacity="0.35">
+        <animate attributeName="height" values="93.8;93.8;64.3;64.3;37.5;37.5;150.1;150.1" keyTimes="0.000;0.397;0.406;0.565;0.574;0.759;0.768;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="y" values="190.2;190.2;219.7;219.7;246.5;246.5;133.9;133.9" keyTimes="0.000;0.397;0.406;0.565;0.574;0.759;0.768;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#2563eb;currentColor;#ea580c;currentColor;currentColor;#ea580c;currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.327;0.335;0.344;0.353;0.362;0.397;0.406;0.415;0.556;0.565;0.574;0.759;0.768;0.777;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="opacity" values="0.35;0.15;0.15;0.9;0.35;0.9;0.35;0.15;0.15;0.9;0.35;0.35;0.15;0.15;0.9;0.35;0.35;0.9;0.35;0.35;0.85;0.85" keyTimes="0.000;0.009;0.327;0.335;0.344;0.353;0.362;0.371;0.397;0.406;0.415;0.441;0.450;0.556;0.565;0.574;0.759;0.768;0.777;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+      <!-- Cap only animates if Y or Fill change -->
+      <rect x="301.52" y="190.2" width="20.96" height="3" rx="0.5" fill="currentColor">
+        <animate attributeName="y" values="190.2;190.2;219.7;219.7;246.5;246.5;133.9;133.9" keyTimes="0.000;0.397;0.406;0.565;0.574;0.759;0.768;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#2563eb;currentColor;#ea580c;currentColor;currentColor;#ea580c;currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.327;0.335;0.344;0.353;0.362;0.397;0.406;0.415;0.556;0.565;0.574;0.759;0.768;0.777;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+    </g>
+    <g>
+      <rect x="325.48" y="85.7" width="20.96" height="198.3" rx="1" fill="currentColor" opacity="0.35">
+        <animate attributeName="height" values="198.3;198.3;112.6;112.6;93.8;93.8;64.3;64.3;160.8;160.8" keyTimes="0.000;0.353;0.362;0.406;0.415;0.574;0.582;0.768;0.777;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="y" values="85.7;85.7;171.4;171.4;190.2;190.2;219.7;219.7;123.2;123.2" keyTimes="0.000;0.353;0.362;0.406;0.415;0.574;0.582;0.768;0.777;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#ea580c;currentColor;#ea580c;currentColor;currentColor;#ea580c;currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.335;0.344;0.353;0.362;0.371;0.406;0.415;0.424;0.565;0.574;0.582;0.768;0.777;0.785;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="opacity" values="0.35;0.15;0.15;0.35;0.9;0.35;0.9;0.15;0.15;0.35;0.9;0.35;0.35;0.15;0.15;0.35;0.9;0.35;0.35;0.9;0.35;0.35;0.85;0.85" keyTimes="0.000;0.009;0.327;0.335;0.344;0.353;0.362;0.371;0.397;0.406;0.415;0.424;0.441;0.450;0.556;0.565;0.574;0.582;0.768;0.777;0.785;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+      <!-- Cap only animates if Y or Fill change -->
+      <rect x="325.48" y="85.7" width="20.96" height="3" rx="0.5" fill="currentColor">
+        <animate attributeName="y" values="85.7;85.7;171.4;171.4;190.2;190.2;219.7;219.7;123.2;123.2" keyTimes="0.000;0.353;0.362;0.406;0.415;0.574;0.582;0.768;0.777;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#ea580c;currentColor;#ea580c;currentColor;currentColor;#ea580c;currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.335;0.344;0.353;0.362;0.371;0.406;0.415;0.424;0.565;0.574;0.582;0.768;0.777;0.785;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+    </g>
+    <g>
+      <rect x="349.44" y="171.4" width="20.96" height="112.6" rx="1" fill="currentColor" opacity="0.35">
+        <animate attributeName="height" values="112.6;112.6;198.3;198.3;112.6;112.6;93.8;93.8;168.8;168.8" keyTimes="0.000;0.362;0.371;0.415;0.424;0.582;0.591;0.777;0.785;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="y" values="171.4;171.4;85.7;85.7;171.4;171.4;190.2;190.2;115.2;115.2" keyTimes="0.000;0.362;0.371;0.415;0.424;0.582;0.591;0.777;0.785;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#ea580c;currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.415;0.424;0.432;0.574;0.582;0.591;0.777;0.785;0.794;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="opacity" values="0.35;0.15;0.15;0.35;0.35;0.15;0.15;0.35;0.35;0.9;0.35;0.35;0.15;0.15;0.35;0.35;0.9;0.35;0.35;0.9;0.35;0.35;0.85;0.85" keyTimes="0.000;0.009;0.344;0.353;0.362;0.371;0.397;0.406;0.415;0.424;0.432;0.441;0.450;0.556;0.565;0.574;0.582;0.591;0.777;0.785;0.794;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+      <!-- Cap only animates if Y or Fill change -->
+      <rect x="349.44" y="171.4" width="20.96" height="3" rx="0.5" fill="currentColor">
+        <animate attributeName="y" values="171.4;171.4;85.7;85.7;171.4;171.4;190.2;190.2;115.2;115.2" keyTimes="0.000;0.362;0.371;0.415;0.424;0.582;0.591;0.777;0.785;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#ea580c;currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.415;0.424;0.432;0.574;0.582;0.591;0.777;0.785;0.794;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+    </g>
+    <g>
+      <rect x="373.4" y="104.4" width="20.96" height="179.6" rx="1" fill="currentColor" opacity="0.35">
+        <animate attributeName="height" values="179.6;179.6;64.3;64.3;179.6;179.6;112.6;112.6;179.6;179.6" keyTimes="0.000;0.379;0.388;0.424;0.432;0.591;0.600;0.785;0.794;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="y" values="104.4;104.4;219.7;219.7;104.4;104.4;171.4;171.4;104.4;104.4" keyTimes="0.000;0.379;0.388;0.424;0.432;0.591;0.600;0.785;0.794;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#2563eb;currentColor;#ea580c;currentColor;currentColor;#ea580c;currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.362;0.371;0.379;0.388;0.397;0.424;0.432;0.441;0.582;0.591;0.600;0.785;0.794;0.803;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="opacity" values="0.35;0.15;0.15;0.9;0.35;0.9;0.35;0.35;0.9;0.35;0.15;0.15;0.35;0.35;0.9;0.35;0.35;0.9;0.35;0.35;0.85;0.85" keyTimes="0.000;0.009;0.362;0.371;0.379;0.388;0.397;0.424;0.432;0.441;0.450;0.556;0.565;0.582;0.591;0.600;0.785;0.794;0.803;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+      <!-- Cap only animates if Y or Fill change -->
+      <rect x="373.4" y="104.4" width="20.96" height="3" rx="0.5" fill="currentColor">
+        <animate attributeName="y" values="104.4;104.4;219.7;219.7;104.4;104.4;171.4;171.4;104.4;104.4" keyTimes="0.000;0.379;0.388;0.424;0.432;0.591;0.600;0.785;0.794;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#2563eb;currentColor;#ea580c;currentColor;currentColor;#ea580c;currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.362;0.371;0.379;0.388;0.397;0.424;0.432;0.441;0.582;0.591;0.600;0.785;0.794;0.803;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+    </g>
+    <g>
+      <rect x="397.36" y="58.9" width="20.96" height="225.1" rx="1" fill="currentColor" opacity="0.35">
+        <animate attributeName="height" values="225.1;225.1;179.6;179.6;198.3;198.3;131.3;131.3;187.6;187.6" keyTimes="0.000;0.388;0.397;0.432;0.441;0.600;0.609;0.794;0.803;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="y" values="58.9;58.9;104.4;104.4;85.7;85.7;152.7;152.7;96.4;96.4" keyTimes="0.000;0.388;0.397;0.432;0.441;0.600;0.609;0.794;0.803;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#ea580c;currentColor;currentColor;#ea580c;currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.371;0.379;0.388;0.432;0.441;0.450;0.591;0.600;0.609;0.794;0.803;0.812;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="opacity" values="0.35;0.15;0.15;0.35;0.9;0.35;0.35;0.9;0.15;0.15;0.35;0.35;0.9;0.35;0.35;0.9;0.35;0.35;0.85;0.85" keyTimes="0.000;0.009;0.362;0.371;0.379;0.388;0.432;0.441;0.450;0.556;0.565;0.591;0.600;0.609;0.794;0.803;0.812;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+      <!-- Cap only animates if Y or Fill change -->
+      <rect x="397.36" y="58.9" width="20.96" height="3" rx="0.5" fill="currentColor">
+        <animate attributeName="y" values="58.9;58.9;104.4;104.4;85.7;85.7;152.7;152.7;96.4;96.4" keyTimes="0.000;0.388;0.397;0.432;0.441;0.600;0.609;0.794;0.803;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#ea580c;currentColor;currentColor;#ea580c;currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.371;0.379;0.388;0.432;0.441;0.450;0.591;0.600;0.609;0.794;0.803;0.812;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+    </g>
+    <g>
+      <rect x="421.32" y="219.7" width="20.96" height="64.3" rx="1" fill="currentColor" opacity="0.35">
+        <animate attributeName="height" values="64.3;64.3;225.1;225.1;179.6;179.6;198.3;198.3" keyTimes="0.000;0.388;0.397;0.609;0.618;0.803;0.812;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="y" values="219.7;219.7;58.9;58.9;104.4;104.4;85.7;85.7" keyTimes="0.000;0.388;0.397;0.609;0.618;0.803;0.812;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#ea580c;currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.388;0.397;0.406;0.600;0.609;0.618;0.803;0.812;0.821;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="opacity" values="0.35;0.15;0.15;0.35;0.9;0.35;0.35;0.15;0.15;0.35;0.35;0.9;0.35;0.35;0.9;0.35;0.35;0.85;0.85" keyTimes="0.000;0.009;0.379;0.388;0.397;0.406;0.441;0.450;0.556;0.565;0.600;0.609;0.618;0.803;0.812;0.821;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+      <!-- Cap only animates if Y or Fill change -->
+      <rect x="421.32" y="219.7" width="20.96" height="3" rx="0.5" fill="currentColor">
+        <animate attributeName="y" values="219.7;219.7;58.9;58.9;104.4;104.4;85.7;85.7" keyTimes="0.000;0.388;0.397;0.609;0.618;0.803;0.812;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#ea580c;currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.388;0.397;0.406;0.600;0.609;0.618;0.803;0.812;0.821;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+    </g>
+    <g>
+      <rect x="445.28" y="66.9" width="20.96" height="217.1" rx="1" fill="currentColor" opacity="0.35">
+        <animate attributeName="height" values="217.1;217.1;37.5;37.5;198.3;198.3;206.4;206.4" keyTimes="0.000;0.512;0.521;0.618;0.627;0.812;0.821;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="y" values="66.9;66.9;246.5;246.5;85.7;85.7;77.6;77.6" keyTimes="0.000;0.512;0.521;0.618;0.627;0.812;0.821;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#2563eb;currentColor;#ea580c;currentColor;currentColor;#ea580c;currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.441;0.450;0.459;0.468;0.477;0.512;0.521;0.529;0.609;0.618;0.627;0.812;0.821;0.830;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="opacity" values="0.35;0.15;0.15;0.9;0.35;0.9;0.35;0.15;0.15;0.9;0.35;0.35;0.9;0.35;0.35;0.9;0.35;0.35;0.85;0.85" keyTimes="0.000;0.009;0.441;0.450;0.459;0.468;0.477;0.485;0.512;0.521;0.529;0.609;0.618;0.627;0.812;0.821;0.830;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+      <!-- Cap only animates if Y or Fill change -->
+      <rect x="445.28" y="66.9" width="20.96" height="3" rx="0.5" fill="currentColor">
+        <animate attributeName="y" values="66.9;66.9;246.5;246.5;85.7;85.7;77.6;77.6" keyTimes="0.000;0.512;0.521;0.618;0.627;0.812;0.821;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#2563eb;currentColor;#ea580c;currentColor;currentColor;#ea580c;currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.441;0.450;0.459;0.468;0.477;0.512;0.521;0.529;0.609;0.618;0.627;0.812;0.821;0.830;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+    </g>
+    <g>
+      <rect x="469.24" y="48.2" width="20.96" height="235.8" rx="1" fill="currentColor" opacity="0.35">
+        <animate attributeName="height" values="235.8;235.8;131.3;131.3;217.1;217.1" keyTimes="0.000;0.521;0.529;0.627;0.635;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="y" values="48.2;48.2;152.7;152.7;66.9;66.9" keyTimes="0.000;0.521;0.529;0.627;0.635;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#ea580c;currentColor;#ea580c;currentColor;currentColor;#ea580c;currentColor;currentColor;#2563eb;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.450;0.459;0.468;0.477;0.485;0.521;0.529;0.538;0.618;0.627;0.635;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="opacity" values="0.35;0.15;0.15;0.35;0.9;0.35;0.9;0.15;0.15;0.35;0.9;0.35;0.35;0.9;0.35;0.35;0.85;0.85" keyTimes="0.000;0.009;0.441;0.450;0.459;0.468;0.477;0.485;0.512;0.521;0.529;0.538;0.618;0.627;0.635;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+      <!-- Cap only animates if Y or Fill change -->
+      <rect x="469.24" y="48.2" width="20.96" height="3" rx="0.5" fill="currentColor">
+        <animate attributeName="y" values="48.2;48.2;152.7;152.7;66.9;66.9" keyTimes="0.000;0.521;0.529;0.627;0.635;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#ea580c;currentColor;#ea580c;currentColor;currentColor;#ea580c;currentColor;currentColor;#2563eb;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.450;0.459;0.468;0.477;0.485;0.521;0.529;0.538;0.618;0.627;0.635;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+    </g>
+    <g>
+      <rect x="493.2" y="40.1" width="20.96" height="243.9" rx="1" fill="currentColor" opacity="0.35">
+        <animate attributeName="height" values="243.9;243.9;217.1;217.1;225.1;225.1" keyTimes="0.000;0.529;0.538;0.635;0.644;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="y" values="40.1;40.1;66.9;66.9;58.9;58.9" keyTimes="0.000;0.529;0.538;0.635;0.644;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#ea580c;currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.529;0.538;0.547;0.627;0.635;0.644;0.821;0.830;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="opacity" values="0.35;0.15;0.15;0.35;0.35;0.15;0.15;0.35;0.35;0.9;0.35;0.35;0.9;0.35;0.35;0.9;0.35;0.85;0.85" keyTimes="0.000;0.009;0.459;0.468;0.477;0.485;0.512;0.521;0.529;0.538;0.547;0.627;0.635;0.644;0.821;0.830;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+      <!-- Cap only animates if Y or Fill change -->
+      <rect x="493.2" y="40.1" width="20.96" height="3" rx="0.5" fill="currentColor">
+        <animate attributeName="y" values="40.1;40.1;66.9;66.9;58.9;58.9" keyTimes="0.000;0.529;0.538;0.635;0.644;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#ea580c;currentColor;currentColor;#2563eb;currentColor;currentColor;#ea580c;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.529;0.538;0.547;0.627;0.635;0.644;0.821;0.830;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+    </g>
+    <g>
+      <rect x="517.16" y="29.4" width="20.96" height="254.6" rx="1" fill="currentColor" opacity="0.35">
+        <animate attributeName="height" values="254.6;254.6;131.3;37.5;37.5;235.8;235.8" keyTimes="0.000;0.485;0.494;0.503;0.538;0.547;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="y" values="29.4;29.4;152.7;246.5;246.5;48.2;48.2" keyTimes="0.000;0.485;0.494;0.503;0.538;0.547;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#2563eb;currentColor;#ea580c;currentColor;currentColor;#ea580c;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.477;0.485;0.494;0.503;0.512;0.538;0.547;0.556;0.635;0.644;0.653;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="opacity" values="0.35;0.15;0.15;0.9;0.35;0.9;0.35;0.35;0.9;0.35;0.35;0.9;0.35;0.35;0.85;0.85" keyTimes="0.000;0.009;0.477;0.485;0.494;0.503;0.512;0.538;0.547;0.556;0.635;0.644;0.653;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+      <!-- Cap only animates if Y or Fill change -->
+      <rect x="517.16" y="29.4" width="20.96" height="3" rx="0.5" fill="currentColor">
+        <animate attributeName="y" values="29.4;29.4;152.7;246.5;246.5;48.2;48.2" keyTimes="0.000;0.485;0.494;0.503;0.538;0.547;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#2563eb;currentColor;#ea580c;currentColor;currentColor;#ea580c;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.477;0.485;0.494;0.503;0.512;0.538;0.547;0.556;0.635;0.644;0.653;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+    </g>
+    <g>
+      <rect x="541.12" y="152.7" width="20.96" height="131.3" rx="1" fill="currentColor" opacity="0.35">
+        <animate attributeName="height" values="131.3;131.3;254.6;254.6;131.3;131.3;243.9;243.9" keyTimes="0.000;0.485;0.494;0.503;0.512;0.547;0.556;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="y" values="152.7;152.7;29.4;29.4;152.7;152.7;40.1;40.1" keyTimes="0.000;0.485;0.494;0.503;0.512;0.547;0.556;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#ea580c;currentColor;currentColor;#ea580c;currentColor;currentColor;#ea580c;#16a34a;#16a34a" keyTimes="0.000;0.485;0.494;0.503;0.547;0.556;0.565;0.830;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="opacity" values="0.35;0.15;0.15;0.35;0.9;0.35;0.35;0.9;0.35;0.35;0.9;0.85;0.85" keyTimes="0.000;0.009;0.477;0.485;0.494;0.503;0.547;0.556;0.565;0.830;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+      <!-- Cap only animates if Y or Fill change -->
+      <rect x="541.12" y="152.7" width="20.96" height="3" rx="0.5" fill="currentColor">
+        <animate attributeName="y" values="152.7;152.7;29.4;29.4;152.7;152.7;40.1;40.1" keyTimes="0.000;0.485;0.494;0.503;0.512;0.547;0.556;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#ea580c;currentColor;currentColor;#ea580c;currentColor;currentColor;#ea580c;#16a34a;#16a34a" keyTimes="0.000;0.485;0.494;0.503;0.547;0.556;0.565;0.830;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+    </g>
+    <g>
+      <rect x="565.08" y="246.5" width="20.96" height="37.5" rx="1" fill="currentColor" opacity="0.35">
+        <animate attributeName="height" values="37.5;37.5;254.6;254.6" keyTimes="0.000;0.503;0.512;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="y" values="246.5;246.5;29.4;29.4" keyTimes="0.000;0.503;0.512;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#ea580c;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.503;0.512;0.521;0.644;0.653;0.662;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="opacity" values="0.35;0.15;0.15;0.35;0.9;0.35;0.35;0.9;0.35;0.35;0.85;0.85" keyTimes="0.000;0.009;0.494;0.503;0.512;0.521;0.644;0.653;0.662;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+      <!-- Cap only animates if Y or Fill change -->
+      <rect x="565.08" y="246.5" width="20.96" height="3" rx="0.5" fill="currentColor">
+        <animate attributeName="y" values="246.5;246.5;29.4;29.4" keyTimes="0.000;0.503;0.512;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="currentColor;currentColor;#ea580c;currentColor;currentColor;#ea580c;currentColor;currentColor;#16a34a;#16a34a" keyTimes="0.000;0.503;0.512;0.521;0.644;0.653;0.662;0.838;0.847;1.000" dur="9.16s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+    </g>
+
+  <!-- Interactive Pause / Play Button -->
+  <g class="svg-btn" onclick="var s=this.ownerSVGElement||this;if(s.animationsPaused()){s.unpauseAnimations();this.classList.remove('paused');}else{s.pauseAnimations();this.classList.add('paused');}" transform="translate(6, 6)">
+    <rect width="20" height="20" rx="3" fill-opacity="0.12" />
+    <g class="icon-pause">
+      <rect x="6" y="5" width="2.5" height="10" rx="0.5" class="icon-bar"/>
+      <rect x="11.5" y="5" width="2.5" height="10" rx="0.5" class="icon-bar"/>
+    </g>
+    <polygon points="7,5 15,10 7,15" class="icon-play"/>
+  </g>
+</svg>
