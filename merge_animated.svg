@@ -8,6 +8,14 @@
     .icon-play { display: none; }
     .paused .icon-play { display: block; }
     .paused .icon-pause { display: none; }
+    :root {
+      color: #000000; /* Default light theme */
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        color: #ffffff; /* Automatically switches to white in dark mode */
+      }
+    }
   </style>
 
   <!-- Border -->
