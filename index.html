@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sorting Algorithm Visualizer & Animated SVG Exporter</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --border-dark: #cbd5e1;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --primary: #1e293b;
+      --primary-hover: #334155;
+      
+      /* Standardized ~50% luminance functional colors */
+      --c-pivot: #d62728;   /* 50% Lum Red */
+      --c-comp: #2563eb;    /* 50% Lum Blue */
+      --c-swap: #ea580c;    /* 50% Lum Orange */
+      --c-sorted: #16a34a;  /* 50% Lum Green */
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background: var(--bg); color: var(--text); min-height: 100vh; padding: 1.5rem; display: flex; flex-direction: column; align-items: center; }
+
+    header { text-align: center; margin-bottom: 1.25rem; }
+    header h1 { font-size: 1.5rem; font-weight: 700; color: var(--text); letter-spacing: -0.02em; }
+    header p { color: var(--text-muted); font-size: 0.85rem; margin-top: 0.25rem; }
+
+    .container { width: 100%; max-width: 920px; display: flex; flex-direction: column; gap: 1rem; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.25rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+
+    .controls-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.85rem; align-items: flex-end; }
+    .control-group { display: flex; flex-direction: column; gap: 0.35rem; }
+    label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); font-weight: 600; }
+    
+    select, input[type="range"], button {
+      background: var(--surface); color: var(--text); border: 1px solid var(--border-dark);
+      border-radius: 4px; padding: 0.4rem 0.6rem; font-size: 0.82rem; outline: none;
+    }
+    select:focus, input:focus { border-color: var(--primary); }
+
+    .btn-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.85rem; padding-top: 0.85rem; border-top: 1px solid var(--border); }
+    button { cursor: pointer; font-weight: 600; transition: all 0.15s; }
+    button:hover:not(:disabled) { background: #f1f5f9; }
+    button.dark { background: var(--primary); color: #fff; border-color: var(--primary); }
+    button.dark:hover:not(:disabled) { background: var(--primary-hover); }
+
+    /* Visualizer Canvas */
+    .stage-wrapper {
+      position: relative; border: 1px solid rgba(128,128,128,0.35); border-radius: 4px;
+      height: 320px; background: transparent; overflow: hidden; display: flex; flex-direction: column;
+    }
+    .stage-header {
+      display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid rgba(128,128,128,0.15); font-size: 0.75rem; font-family: monospace; color: var(--text-muted);
+    }
+    .legend-dots { display: flex; gap: 0.85rem; }
+    .legend-dots span { display: flex; align-items: center; gap: 0.35rem; }
+    .dot { width: 8px; height: 8px; border-radius: 2px; }
+
+    .canvas-area { position: relative; flex: 1; display: flex; align-items: flex-end; padding: 1.5rem 1rem 1rem 1rem; }
+    .range-overlay { position: absolute; top: 0; bottom: 0; background: rgba(148, 163, 184, 0.12); pointer-events: none; transition: all 0.08s ease; }
+    .pivot-line { position: absolute; left: 0; right: 0; border-top: 1.5px dashed var(--c-pivot); opacity: 0; pointer-events: none; }
+    
+    .bars-container { width: 100%; height: 100%; display: flex; align-items: flex-end; gap: 3px; position: relative; }
+    .bar-col { flex: 1; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; position: relative; }
+    .bar-body {
+      width: 100%; background: currentColor; opacity: 0.25; border-radius: 1px;
+      transition: height 0.08s ease, background-color 0.08s, opacity 0.08s;
+    }
+    .bar-cap {
+      width: 100%; height: 3.5px; background: currentColor; margin-bottom: 0px;
+      border-radius: 1px 1px 0 0; transition: background-color 0.08s;
+    }
+    .pointer-arrow {
+      position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%);
+      width: 0; height: 0; border-left: 3.5px solid transparent; border-right: 3.5px solid transparent;
+      border-bottom: 5px solid var(--c-comp); opacity: 0;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(15,23,42,0.6); backdrop-filter: blur(2px);
+      display: none; align-items: center; justify-content: center; z-index: 100; padding: 1rem;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal { background: #fff; border-radius: 8px; width: 100%; max-width: 680px; padding: 1.25rem; display: flex; flex-direction: column; gap: 0.85rem; }
+    .preview-canvas {
+      width: 100%; height: 260px; border: 1px solid rgba(128,128,128,0.35); border-radius: 4px;
+      display: flex; align-items: center; justify-content: center; position: relative;
+    }
+    .preview-canvas.dark-bg { background: #0f172a; color: #f8fafc; }
+    .preview-canvas.light-bg { background: #ffffff; color: #0f172a; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Sorting Algorithm Visualizer</h1>
+    <p>Academic animations with ad-hoc indicators, exportable as compact animated vector SVGs.</p>
+  </header>
+
+  <div class="container">
+    <div class="card">
+      <div class="controls-grid">
+        <div class="control-group">
+          <label for="algoSelect">Algorithm</label>
+          <select id="algoSelect">
+            <option value="quick_hoare">Quick Sort (Hoare)</option>
+            <option value="quick_lomuto">Quick Sort (Lomuto)</option>
+            <option value="merge">Merge Sort</option>
+            <option value="heap">Heap Sort</option>
+            <option value="radix">Radix Sort (LSD)</option>
+            <option value="insertion">Insertion Sort</option>
+            <option value="selection">Selection Sort</option>
+            <option value="bubble">Bubble Sort</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label for="distSelect">Array Distribution</label>
+          <select id="distSelect">
+            <option value="random">Randomized</option>
+            <option value="nearly_sorted">Nearly Sorted</option>
+            <option value="reversed">Reversed</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label for="sizeRange">Bars: <span id="sizeVal">24</span></label>
+          <input type="range" id="sizeRange" min="12" max="36" value="24" />
+        </div>
+
+        <div class="control-group">
+          <label for="speedRange">Playback Speed</label>
+          <input type="range" id="speedRange" min="5" max="100" value="45" />
+        </div>
+
+        <div class="control-group">
+          <label for="stepDuration">Step Time (Normalized): <span id="stepDurVal">80ms</span></label>
+          <input type="range" id="stepDuration" min="20" max="200" step="5" value="80" />
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button id="btnShuffle">Shuffle / Generate</button>
+        <button id="btnPlay" class="dark">Play</button>
+        <button id="btnExport">Export Animated SVG</button>
+      </div>
+    </div>
+
+    <!-- Live Stage -->
+    <div class="card stage-wrapper" id="liveStage">
+      <div class="stage-header">
+        <div class="legend-dots">
+          <span><div class="dot" style="background:currentColor;opacity:0.6"></div> Default</span>
+          <span><div class="dot" style="background:var(--c-comp)"></div> Compared</span>
+          <span><div class="dot" style="background:var(--c-pivot)"></div> Pivot / Target</span>
+          <span><div class="dot" style="background:var(--c-sorted)"></div> Sorted</span>
+        </div>
+        <div id="statusInfo">Steps: 0 | Initialized</div>
+      </div>
+
+      <div class="canvas-area">
+        <div class="range-overlay" id="rangeOverlay"></div>
+        <div class="pivot-line" id="pivotLine"></div>
+        <div class="bars-container" id="barsContainer"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SVG Export Modal -->
+  <div class="modal-overlay" id="exportModal">
+    <div class="modal">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h3 style="font-size:1.05rem;">Exported Compact Animated SVG</h3>
+        <div style="display:flex; gap:0.4rem;">
+          <button id="btnBgToggle" style="font-size:0.75rem;">Toggle Dark/Light Preview</button>
+        </div>
+      </div>
+
+      <div class="preview-canvas light-bg" id="previewCanvas"></div>
+
+      <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:var(--text-muted); font-family:monospace;">
+        <span id="svgFileSize">Size: ~0 KB</span>
+        <span id="svgTotalDur">Loop Duration: 0.0s</span>
+        <span>calcMode: discrete</span>
+      </div>
+
+      <div class="btn-row" style="margin-top:0; border-top:none; justify-content:flex-end;">
+        <button id="btnCopySvg">Copy SVG Markup</button>
+        <button id="btnDownloadSvg" class="dark">Download .svg</button>
+        <button id="btnCloseModal">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Configuration & 50% luminance colors
+    const C_PIVOT = "#d62728";
+    const C_COMP = "#2563eb";
+    const C_SWAP = "#ea580c";
+    const C_SORTED = "#16a34a";
+
+    let array = [];
+    let frames = [];
+    let currentIdx = 0;
+    let isPlaying = false;
+    let playTimer = null;
+    let generatedSvg = "";
+
+    const barsContainer = document.getElementById("barsContainer");
+    const rangeOverlay = document.getElementById("rangeOverlay");
+    const pivotLine = document.getElementById("pivotLine");
+    const statusInfo = document.getElementById("statusInfo");
+    const algoSelect = document.getElementById("algoSelect");
+    const distSelect = document.getElementById("distSelect");
+    const sizeRange = document.getElementById("sizeRange");
+    const sizeVal = document.getElementById("sizeVal");
+    const speedRange = document.getElementById("speedRange");
+    const stepDuration = document.getElementById("stepDuration");
+    const stepDurVal = document.getElementById("stepDurVal");
+    const btnPlay = document.getElementById("btnPlay");
+    const btnShuffle = document.getElementById("btnShuffle");
+    const btnExport = document.getElementById("btnExport");
+
+    const exportModal = document.getElementById("exportModal");
+    const previewCanvas = document.getElementById("previewCanvas");
+    const btnCloseModal = document.getElementById("btnCloseModal");
+    const btnCopySvg = document.getElementById("btnCopySvg");
+    const btnDownloadSvg = document.getElementById("btnDownloadSvg");
+    const btnBgToggle = document.getElementById("btnBgToggle");
+    const svgFileSize = document.getElementById("svgFileSize");
+    const svgTotalDur = document.getElementById("svgTotalDur");
+
+    // --- Array Generators ---
+    function initData() {
+      stop();
+      const n = parseInt(sizeRange.value, 10);
+      sizeVal.textContent = n;
+      const dist = distSelect.value;
+      array = Array.from({ length: n }, (_, i) => Math.round(((i + 1) / n) * 85 + 10));
+
+      if (dist === "random") {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+      } else if (dist === "nearly_sorted") {
+        for (let i = 0; i < Math.floor(n / 6); i++) {
+          const a = Math.floor(Math.random() * n);
+          const b = Math.floor(Math.random() * n);
+          [array[a], array[b]] = [array[b], array[a]];
+        }
+      } else if (dist === "reversed") {
+        array.reverse();
+      }
+
+      recordFrames();
+      currentIdx = 0;
+      renderFrame(0);
+    }
+
+    // --- Frame Recorder ---
+    function recordFrames() {
+      frames = [];
+      const arr = [...array];
+      const n = arr.length;
+
+      function snapshot(opts = {}) {
+        frames.push({
+          array: [...arr],
+          range: opts.range || null,          // [start, end]
+          pivotVal: opts.pivotVal ?? null,    // height value
+          highlights: { ...(opts.hl || {}) }, // index -> 'pivot'|'comp'|'swap'|'sorted'
+          pointers: opts.ptrs || [],          // indices with arrows
+          note: opts.note || ""
+        });
+      }
+
+      snapshot({ note: "Initial state" });
+
+      const algo = algoSelect.value;
+
+      if (algo === "quick_hoare") {
+        function hoarePartition(low, high) {
+          const pivot = arr[Math.floor((low + high) / 2)];
+          let i = low - 1;
+          let j = high + 1;
+          while (true) {
+            do {
+              i++;
+              snapshot({ range: [low, high], pivotVal: pivot, hl: { [i]: 'comp' }, ptrs: [i, j], note: "Scan left" });
+            } while (arr[i] < pivot);
+
+            do {
+              j--;
+              snapshot({ range: [low, high], pivotVal: pivot, hl: { [j]: 'comp' }, ptrs: [i, j], note: "Scan right" });
+            } while (arr[j] > pivot);
+
+            if (i >= j) return j;
+
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+            snapshot({ range: [low, high], pivotVal: pivot, hl: { [i]: 'swap', [j]: 'swap' }, ptrs: [i, j], note: "Swap elements" });
+          }
+        }
+        function qsort(low, high) {
+          if (low < high) {
+            const p = hoarePartition(low, high);
+            qsort(low, p);
+            qsort(p + 1, high);
+          }
+        }
+        qsort(0, n - 1);
+
+      } else if (algo === "quick_lomuto") {
+        function lomutoPartition(low, high) {
+          const pivot = arr[high];
+          let i = low - 1;
+          for (let j = low; j < high; j++) {
+            snapshot({ range: [low, high], pivotVal: pivot, hl: { [j]: 'comp', [high]: 'pivot' }, ptrs: [j], note: "Compare to pivot" });
+            if (arr[j] < pivot) {
+              i++;
+              [arr[i], arr[j]] = [arr[j], arr[i]];
+              snapshot({ range: [low, high], pivotVal: pivot, hl: { [i]: 'swap', [j]: 'swap', [high]: 'pivot' }, ptrs: [i, j], note: "Swap below pivot" });
+            }
+          }
+          [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];
+          snapshot({ range: [low, high], hl: { [i + 1]: 'sorted' }, note: "Pivot placed" });
+          return i + 1;
+        }
+        function qsortLomuto(low, high) {
+          if (low < high) {
+            const pi = lomutoPartition(low, high);
+            qsortLomuto(low, pi - 1);
+            qsortLomuto(pi + 1, high);
+          }
+        }
+        qsortLomuto(0, n - 1);
+
+      } else if (algo === "merge") {
+        function merge(low, mid, high) {
+          const left = arr.slice(low, mid + 1);
+          const right = arr.slice(mid + 1, high + 1);
+          let i = 0, j = 0, k = low;
+
+          while (i < left.length && j < right.length) {
+            snapshot({ range: [low, high], hl: { [k]: 'comp' }, ptrs: [k], note: "Comparing subarrays" });
+            if (left[i] <= right[j]) {
+              arr[k] = left[i++];
+            } else {
+              arr[k] = right[j++];
+            }
+            snapshot({ range: [low, high], hl: { [k]: 'swap' }, ptrs: [k], note: "Writing back merged element" });
+            k++;
+          }
+          while (i < left.length) {
+            arr[k] = left[i++];
+            snapshot({ range: [low, high], hl: { [k]: 'swap' }, ptrs: [k] });
+            k++;
+          }
+          while (j < right.length) {
+            arr[k] = right[j++];
+            snapshot({ range: [low, high], hl: { [k]: 'swap' }, ptrs: [k] });
+            k++;
+          }
+        }
+        function mergeSort(l, r) {
+          if (l < r) {
+            const m = Math.floor((l + r) / 2);
+            mergeSort(l, m);
+            mergeSort(m + 1, r);
+            merge(l, m, r);
+          }
+        }
+        mergeSort(0, n - 1);
+
+      } else if (algo === "heap") {
+        function siftDown(limit, root) {
+          let largest = root;
+          const left = 2 * root + 1;
+          const right = 2 * root + 2;
+
+          if (left < limit) {
+            snapshot({ range: [0, limit - 1], hl: { [left]: 'comp', [largest]: 'comp' }, ptrs: [left], note: "Heapify compare" });
+            if (arr[left] > arr[largest]) largest = left;
+          }
+          if (right < limit) {
+            snapshot({ range: [0, limit - 1], hl: { [right]: 'comp', [largest]: 'comp' }, ptrs: [right], note: "Heapify compare" });
+            if (arr[right] > arr[largest]) largest = right;
+          }
+
+          if (largest !== root) {
+            [arr[root], arr[largest]] = [arr[largest], arr[root]];
+            snapshot({ range: [0, limit - 1], hl: { [root]: 'swap', [largest]: 'swap' }, note: "Sift down swap" });
+            siftDown(limit, largest);
+          }
+        }
+
+        // Build max heap
+        for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
+          siftDown(n, i);
+        }
+        // Extract elements from heap
+        for (let i = n - 1; i > 0; i--) {
+          [arr[0], arr[i]] = [arr[i], arr[0]];
+          snapshot({ range: [0, i], hl: { [0]: 'swap', [i]: 'sorted' }, note: "Move max to sorted position" });
+          siftDown(i, 0);
+        }
+
+      } else if (algo === "radix") {
+        const maxVal = Math.max(...arr);
+        for (let exp = 1; Math.floor(maxVal / exp) > 0; exp *= 10) {
+          const buckets = Array.from({ length: 10 }, () => []);
+          for (let i = 0; i < n; i++) {
+            const d = Math.floor(arr[i] / exp) % 10;
+            buckets[d].push(arr[i]);
+            snapshot({ hl: { [i]: 'comp' }, ptrs: [i], note: `Radix pass digit ${exp}` });
+          }
+          let idx = 0;
+          for (let b = 0; b < 10; b++) {
+            for (const val of buckets[b]) {
+              arr[idx] = val;
+              snapshot({ hl: { [idx]: 'swap' }, ptrs: [idx], note: "Bucket rebuild" });
+              idx++;
+            }
+          }
+        }
+
+      } else if (algo === "insertion") {
+        for (let i = 1; i < n; i++) {
+          let key = arr[i];
+          let j = i - 1;
+          snapshot({ range: [0, i], hl: { [i]: 'pivot' }, note: "Picking item" });
+          while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            snapshot({ range: [0, i], hl: { [j]: 'comp', [j + 1]: 'swap' }, ptrs: [j], note: "Shift right" });
+            j--;
+          }
+          arr[j + 1] = key;
+          snapshot({ range: [0, i], hl: { [j + 1]: 'sorted' }, note: "Insert in place" });
+        }
+
+      } else if (algo === "selection") {
+        for (let i = 0; i < n; i++) {
+          let minIdx = i;
+          for (let j = i + 1; j < n; j++) {
+            snapshot({ range: [i, n - 1], hl: { [minIdx]: 'pivot', [j]: 'comp' }, ptrs: [j], note: "Finding min" });
+            if (arr[j] < arr[minIdx]) minIdx = j;
+          }
+          if (minIdx !== i) {
+            [arr[i], arr[minIdx]] = [arr[minIdx], arr[i]];
+            snapshot({ range: [i, n - 1], hl: { [i]: 'swap', [minIdx]: 'swap' }, note: "Swap min to front" });
+          }
+          snapshot({ hl: { [i]: 'sorted' }, note: "Mark sorted" });
+        }
+
+      } else if (algo === "bubble") {
+        for (let i = 0; i < n; i++) {
+          for (let j = 0; j < n - i - 1; j++) {
+            snapshot({ hl: { [j]: 'comp', [j + 1]: 'comp' }, ptrs: [j, j + 1], note: "Adjacent compare" });
+            if (arr[j] > arr[j + 1]) {
+              [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+              snapshot({ hl: { [j]: 'swap', [j + 1]: 'swap' }, ptrs: [j, j + 1], note: "Swap" });
+            }
+          }
+          snapshot({ hl: { [n - i - 1]: 'sorted' } });
+        }
+      }
+
+      // Final sorted sweep
+      const sortedHl = {};
+      for (let i = 0; i < n; i++) sortedHl[i] = 'sorted';
+      snapshot({ hl: sortedHl, note: "Array fully sorted" });
+    }
+
+    // --- DOM Stage Renderer ---
+    function renderFrame(index) {
+      if (!frames[index]) return;
+      const f = frames[index];
+      const n = f.array.length;
+
+      statusInfo.textContent = `Step ${index + 1}/${frames.length} | ${f.note || "Sorting..."}`;
+
+      // Update Subarray Range Overlay
+      if (f.range) {
+        const [rStart, rEnd] = f.range;
+        const leftPercent = (rStart / n) * 100;
+        const widthPercent = ((rEnd - rStart + 1) / n) * 100;
+        rangeOverlay.style.left = `${leftPercent}%`;
+        rangeOverlay.style.width = `${widthPercent}%`;
+        rangeOverlay.style.opacity = '1';
+      } else {
+        rangeOverlay.style.opacity = '0';
+      }
+
+      // Update Pivot Guideline
+      if (f.pivotVal !== null) {
+        pivotLine.style.bottom = `${f.pivotVal}%`;
+        pivotLine.style.opacity = '0.9';
+      } else {
+        pivotLine.style.opacity = '0';
+      }
+
+      // Render Bars
+      barsContainer.innerHTML = "";
+      f.array.forEach((val, i) => {
+        const col = document.createElement("div");
+        col.className = "bar-col";
+
+        // Dim if outside recursive range
+        const isDimmed = f.range && (i < f.range[0] || i > f.range[1]);
+        if (isDimmed) col.style.opacity = "0.22";
+
+        const type = f.highlights[i] || null;
+        let capColor = "currentColor";
+        let bodyColor = "currentColor";
+        let bodyOpacity = "0.25";
+
+        if (type === 'pivot') {
+          capColor = C_PIVOT;
+          bodyColor = C_PIVOT;
+          bodyOpacity = "0.45";
+        } else if (type === 'comp') {
+          capColor = C_COMP;
+          bodyColor = C_COMP;
+          bodyOpacity = "0.35";
+        } else if (type === 'swap') {
+          capColor = C_SWAP;
+          bodyColor = C_SWAP;
+          bodyOpacity = "0.4";
+        } else if (type === 'sorted') {
+          capColor = C_SORTED;
+          bodyColor = C_SORTED;
+          bodyOpacity = "0.4";
+        }
+
+        const cap = document.createElement("div");
+        cap.className = "bar-cap";
+        cap.style.backgroundColor = capColor;
+
+        const body = document.createElement("div");
+        body.className = "bar-body";
+        body.style.height = `${val}%`;
+        body.style.backgroundColor = bodyColor;
+        body.style.opacity = bodyOpacity;
+
+        col.appendChild(cap);
+        col.appendChild(body);
+
+        if (f.pointers && f.pointers.includes(i)) {
+          const arrow = document.createElement("div");
+          arrow.className = "pointer-arrow";
+          arrow.style.opacity = "1";
+          col.appendChild(arrow);
+        }
+
+        barsContainer.appendChild(col);
+      });
+    }
+
+    // --- Interactive Playback ---
+    function step() {
+      if (currentIdx < frames.length - 1) {
+        currentIdx++;
+        renderFrame(currentIdx);
+        const delay = 120 - parseInt(speedRange.value, 10);
+        playTimer = setTimeout(step, Math.max(10, delay));
+      } else {
+        stop();
+      }
+    }
+
+    function play() {
+      if (currentIdx >= frames.length - 1) currentIdx = 0;
+      isPlaying = true;
+      btnPlay.textContent = "Pause";
+      step();
+    }
+
+    function stop() {
+      isPlaying = false;
+      clearTimeout(playTimer);
+      btnPlay.textContent = "Play";
+    }
+
+    btnPlay.addEventListener("click", () => isPlaying ? stop() : play());
+    btnShuffle.addEventListener("click", initData);
+    algoSelect.addEventListener("change", initData);
+    distSelect.addEventListener("change", initData);
+    sizeRange.addEventListener("input", initData);
+    stepDuration.addEventListener("input", (e) => {
+      stepDurVal.textContent = `${e.target.value}ms`;
+    });
+
+    // --- Compact Animated SVG Generator ---
+    function generateNormalizedSvg() {
+      const n = array.length;
+      const totalSteps = frames.length;
+
+      // Downsample frames if step count is very high to keep SVG compact (<45KB)
+      const maxFrames = 80;
+      const stepInterval = Math.max(1, Math.floor(totalSteps / maxFrames));
+      const sampled = [];
+      for (let i = 0; i < totalSteps; i += stepInterval) {
+        sampled.push(frames[i]);
+      }
+      if (sampled[sampled.length - 1] !== frames[totalSteps - 1]) {
+        sampled.push(frames[totalSteps - 1]);
+      }
+
+      // Hold the final sorted frame for ~1.5 seconds:
+      const msPerStep = parseInt(stepDuration.value, 10);
+      const pauseFramesCount = Math.max(4, Math.round(1500 / msPerStep)); 
+      const finalFrame = sampled[sampled.length - 1];
+      for (let p = 0; p < pauseFramesCount; p++) {
+        sampled.push(finalFrame);
+      }
+
+      const sampleCount = sampled.length;
+      
+      // Auto-normalized duration based on step count: perceived speed stays consistent
+      const durationSec = +((sampleCount * msPerStep) / 1000).toFixed(2);
+
+      const W = 600;
+      const H = 300;
+      const padX = 14;
+      const padBottom = 16;
+      const padTop = 16;
+      const innerH = H - padTop - padBottom;
+      const totalGaps = (n - 1) * 3;
+      const barW = +(((W - padX * 2 - totalGaps) / n).toFixed(2));
+      const gap = 3;
+
+      const keyTimes = sampled.map((_, i) => (i / (sampleCount - 1)).toFixed(3)).join(";");
+
+      // Generate Range Box & Pivot Guideline Keyframes
+      const rangeX = [];
+      const rangeW = [];
+      const rangeOp = [];
+      const pivotY = [];
+      const pivotOp = [];
+
+      for (let f = 0; f < sampleCount; f++) {
+        const frame = sampled[f];
+        if (frame.range) {
+          const [r0, r1] = frame.range;
+          const rx = padX + r0 * (barW + gap);
+          const rw = (r1 - r0 + 1) * barW + (r1 - r0) * gap;
+          rangeX.push(+rx.toFixed(1));
+          rangeW.push(+rw.toFixed(1));
+          rangeOp.push("0.12");
+        } else {
+          rangeX.push(0);
+          rangeW.push(0);
+          rangeOp.push("0");
+        }
+
+        if (frame.pivotVal !== null) {
+          const py = +(padTop + innerH - (frame.pivotVal / 100) * innerH).toFixed(1);
+          pivotY.push(py);
+          pivotOp.push("0.85");
+        } else {
+          pivotY.push(0);
+          pivotOp.push("0");
+        }
+      }
+
+      // Generate Bars Keyframes
+      let barsMarkup = "";
+      for (let i = 0; i < n; i++) {
+        const x = +(padX + i * (barW + gap)).toFixed(2);
+        const heights = [];
+        const ys = [];
+        const fills = [];
+        const opacities = [];
+
+        for (let f = 0; f < sampleCount; f++) {
+          const frame = sampled[f];
+          const val = frame.array[i];
+          const hVal = +((val / 100) * innerH).toFixed(1);
+          const yVal = +(padTop + innerH - hVal).toFixed(1);
+
+          heights.push(hVal);
+          ys.push(yVal);
+
+          const isDimmed = frame.range && (i < frame.range[0] || i > frame.range[1]);
+          const type = frame.highlights[i] || null;
+
+          if (type === 'pivot') {
+            fills.push(C_PIVOT);
+            opacities.push(isDimmed ? "0.3" : "1.0");
+          } else if (type === 'comp') {
+            fills.push(C_COMP);
+            opacities.push(isDimmed ? "0.3" : "0.9");
+          } else if (type === 'swap') {
+            fills.push(C_SWAP);
+            opacities.push(isDimmed ? "0.3" : "0.9");
+          } else if (type === 'sorted') {
+            fills.push(C_SORTED);
+            opacities.push("0.85");
+          } else {
+            fills.push("currentColor");
+            opacities.push(isDimmed ? "0.15" : "0.35");
+          }
+        }
+
+        barsMarkup += `
+    <g>
+      <rect x="${x}" y="${ys[0]}" width="${barW}" height="${heights[0]}" rx="1" fill="${fills[0]}" opacity="${opacities[0]}">
+        <animate attributeName="height" values="${heights.join(";")}" keyTimes="${keyTimes}" dur="${durationSec}s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="y" values="${ys.join(";")}" keyTimes="${keyTimes}" dur="${durationSec}s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="${fills.join(";")}" keyTimes="${keyTimes}" dur="${durationSec}s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="opacity" values="${opacities.join(";")}" keyTimes="${keyTimes}" dur="${durationSec}s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+      <!-- Cap -->
+      <rect x="${x}" y="${ys[0]}" width="${barW}" height="3" rx="0.5" fill="${fills[0]}">
+        <animate attributeName="y" values="${ys.join(";")}" keyTimes="${keyTimes}" dur="${durationSec}s" repeatCount="indefinite" calcMode="discrete"/>
+        <animate attributeName="fill" values="${fills.join(";")}" keyTimes="${keyTimes}" dur="${durationSec}s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+    </g>`;
+      }
+
+      return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="100%" height="100%">
+  <!-- Embedded script and styling for the pause/play button -->
+  <style>
+    .svg-btn { cursor: pointer; opacity: 0.45; transition: opacity 0.15s; }
+    .svg-btn:hover { opacity: 0.9; }
+    .svg-btn rect { fill: currentColor; }
+    .icon-bar { fill: currentColor; }
+    .icon-play { fill: currentColor; display: none; }
+    .paused .icon-play { display: block; }
+    .paused .icon-pause { display: none; }
+  </style>
+
+  <!-- Semi-transparent border, no background -->
+  <rect x="0.5" y="0.5" width="${W - 1}" height="${H - 1}" rx="3" fill="none" stroke="rgba(128,128,128,0.35)" stroke-width="1"/>
+
+  <!-- Active Range Shading -->
+  <rect y="${padTop}" height="${innerH}" fill="currentColor" opacity="0" pointer-events="none">
+    <animate attributeName="x" values="${rangeX.join(";")}" keyTimes="${keyTimes}" dur="${durationSec}s" repeatCount="indefinite" calcMode="discrete"/>
+    <animate attributeName="width" values="${rangeW.join(";")}" keyTimes="${keyTimes}" dur="${durationSec}s" repeatCount="indefinite" calcMode="discrete"/>
+    <animate attributeName="opacity" values="${rangeOp.join(";")}" keyTimes="${keyTimes}" dur="${durationSec}s" repeatCount="indefinite" calcMode="discrete"/>
+  </rect>
+
+  <!-- Horizontal Pivot Guideline -->
+  <line x1="${padX}" x2="${W - padX}" stroke="${C_PIVOT}" stroke-width="1.2" stroke-dasharray="3,3" opacity="0">
+    <animate attributeName="y1" values="${pivotY.join(";")}" keyTimes="${keyTimes}" dur="${durationSec}s" repeatCount="indefinite" calcMode="discrete"/>
+    <animate attributeName="y2" values="${pivotY.join(";")}" keyTimes="${keyTimes}" dur="${durationSec}s" repeatCount="indefinite" calcMode="discrete"/>
+    <animate attributeName="opacity" values="${pivotOp.join(";")}" keyTimes="${keyTimes}" dur="${durationSec}s" repeatCount="indefinite" calcMode="discrete"/>
+  </line>
+
+  <!-- Animated Bars -->
+  ${barsMarkup}
+
+  <!-- Interactive Pause / Play Button (Top-Left Corner) -->
+  <g class="svg-btn" onclick="var s=this.ownerSVGElement||this;if(s.animationsPaused()){s.unpauseAnimations();this.classList.remove('paused');}else{s.pauseAnimations();this.classList.add('paused');}" transform="translate(6, 6)">
+    <!-- Clickable hit area -->
+    <rect width="20" height="20" rx="3" fill-opacity="0.08" />
+    
+    <!-- Pause icon (2 vertical bars) -->
+    <g class="icon-pause">
+      <rect x="6" y="5" width="2.5" height="10" rx="0.5" class="icon-bar"/>
+      <rect x="11.5" y="5" width="2.5" height="10" rx="0.5" class="icon-bar"/>
+    </g>
+
+    <!-- Play icon (triangle) -->
+    <polygon points="7,5 15,10 7,15" class="icon-play"/>
+  </g>
+</svg>`;
+    }
+
+    // --- Modal & Download Actions ---
+    btnExport.addEventListener("click", () => {
+      stop();
+      generatedSvg = generateNormalizedSvg();
+      previewCanvas.innerHTML = generatedSvg;
+
+      const bytes = new Blob([generatedSvg]).size;
+      svgFileSize.textContent = `Size: ${(bytes / 1024).toFixed(1)} KB`;
+      
+      const sampleCount = Math.min(frames.length, 80);
+      const dur = ((sampleCount * parseInt(stepDuration.value, 10)) / 1000).toFixed(1);
+      svgTotalDur.textContent = `Loop Duration: ${dur}s`;
+
+      exportModal.classList.add("open");
+    });
+
+    btnCloseModal.addEventListener("click", () => exportModal.classList.remove("open"));
+
+    btnBgToggle.addEventListener("click", () => {
+      if (previewCanvas.classList.contains("light-bg")) {
+        previewCanvas.classList.remove("light-bg");
+        previewCanvas.classList.add("dark-bg");
+      } else {
+        previewCanvas.classList.remove("dark-bg");
+        previewCanvas.classList.add("light-bg");
+      }
+    });
+
+    btnCopySvg.addEventListener("click", () => {
+      navigator.clipboard.writeText(generatedSvg).then(() => {
+        const prev = btnCopySvg.textContent;
+        btnCopySvg.textContent = "Copied!";
+        setTimeout(() => btnCopySvg.textContent = prev, 1500);
+      });
+    });
+
+    btnDownloadSvg.addEventListener("click", () => {
+      const blob = new Blob([generatedSvg], { type: "image/svg+xml;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${algoSelect.value}_animated.svg`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+
+    // Start
+    initData();
+  </script>
+</body>
+</html>
